@@ -81,7 +81,7 @@ def search(
         # Select top k (beam_width) probabilities and IDs from the distribution
         top_probs, top_ids = probs.topk(beam_width)
 
-        print(f"{candidate.score}: [{candidate.tokens()}], next token probabilities:")
+        print(f"{candidate.normalized_score}: [{candidate.tokens()}], next token probabilities:")
         for p, w in zip(top_probs.tolist()[0], tokenizer.convert_ids_to_tokens(top_ids.tolist()[0])):
           print(f"\tp: {p: .8f}: {w}")
         print("\n")
@@ -102,6 +102,9 @@ def search(
             next_score *= decay
 
           new_seq = deepcopy(candidate)
+
+          # Adds the new token to the end of this sequence, and updates its raw and normalized scores
+          # Scores are normalized by sequence token length, to avoid penalizing longer sequences
           new_seq.append(ScoredToken(next_token_id, next_score))
 
           # Append the updated sequence to the next candidate sequence set
@@ -112,7 +115,7 @@ def search(
 
     print(f"next step candidates:")
     for seq in reversed(sorted(next_step_candidates)):
-      print(f"\t{seq.score: .8f}: [{seq.tokens()}]")
+      print(f"\t{seq.normalized_score: .8f}: [{seq.tokens()}]")
     print("\n")
 
     # Sort the next-step candidates by their score, select the top-k (beam_width) scoring sequences
@@ -123,9 +126,5 @@ def search(
     # Break if all sequences in the heap end with the eos_token_id
     if all(seq.has_ended() for seq in candidate_sequences):
       break
-
-  for candidate in candidate_sequences:
-    # Normalize scores by length, to avoid penalizing longer sequences
-    candidate.normalize_score()
 
   return candidate_sequences
