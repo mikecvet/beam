@@ -39,7 +39,7 @@ def run_greedy_search(tokenizer, model, input_ids, device):
   
   print(f"greedy search generation results:\n[\n{decoded_text}\n]")
 
-def run_beam_search(tokenizer, model, input_ids, device, width, temperature=1.0):
+def run_beam_search(tokenizer, model, input_ids, device, width, temperature=1.0, decay=False):
   beam_ids = beam.search(
     tokenizer, 
     model, 
@@ -50,7 +50,8 @@ def run_beam_search(tokenizer, model, input_ids, device, width, temperature=1.0)
     end_token_id=tokenizer.eos_token_id, 
     device=device, 
     beam_width=width, 
-    temperature=temperature
+    temperature=temperature,
+    decay_repeated=decay
   )
 
   # Select the best-scoring sequence out of the candidate set
@@ -64,6 +65,7 @@ def run_beam_search(tokenizer, model, input_ids, device, width, temperature=1.0)
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('--beam', type=int, required=False, help='Specify beam search width [default: 8]')
+  parser.add_argument('--decay', action='store_true', help='Apply a score decay to repeated tokens during generation')
   parser.add_argument('--input', type=str, required=True, help='Input text file')
   parser.add_argument('--greedy', action='store_true', help='Run greedy search for text generation')
   parser.add_argument('--max_length', type=int, required=False, help='Maximum token length of generated output [default: 64]')
@@ -92,7 +94,7 @@ def main():
     run_greedy_search(tokenizer, model, input_ids, device)
 
   if args.beam:
-    run_beam_search(tokenizer, model, input_ids, device, args.beam, args.temperature or 1.0)
+    run_beam_search(tokenizer, model, input_ids, device, args.beam, args.temperature or 1.0, args.decay)
 
 if __name__ == '__main__':
   main()
