@@ -64,10 +64,10 @@ def search(
       if not candidate.has_ended(): # skip candidate sequences which have included the end-of-sequence token
 
         # Build a tensor out of the candidate IDs; add a single batch dimension
-        tgt = torch.tensor(candidate.ids(), device=device).unsqueeze(0)
+        gen_seq = torch.tensor(candidate.ids(), device=device).unsqueeze(0)
 
         # Predict next token
-        output = model(input_ids=src_input_ids, decoder_input_ids=tgt)
+        output = model(input_ids=src_input_ids, decoder_input_ids=gen_seq)
 
         # Extract logits from output
         logits = output.logits[:, -1, :]
