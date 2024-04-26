@@ -12,8 +12,6 @@ def search(model, input_ids, max_length, start_token_id, end_token_id, device):
     # Extract the raw model output
     logits = output.logits[:, -1, :]
 
-    print(f"logits: {logits}")
-
     # Extract the argmax, the highest-scoring element, from the model output logits.
     # Unsqueeze to remove the singular batch dimension.
     next_token_id = logits.argmax(-1).unsqueeze(-1)
