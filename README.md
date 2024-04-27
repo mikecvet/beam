@@ -1,6 +1,8 @@
 # Beam Search
 
-This is a python-based example implementation of beam search, leveraging Hugging Face's `transformers` package to use a `T5Tokenizer` and `T5`-based `Model`
+This is a python-based example implementation of beam search, leveraging Hugging Face's `transformers` package to use a `T5Tokenizer` and `T5`-based `Model`.
+
+This code and algorithm is discussed in detail in this blog post: [Temperature Scaling and Beam Search Generation in LLMs, for the ML-Adjacent](https://towardsdatascience.com/temperature-scaling-and-beam-search-text-generation-in-llms-for-the-ml-adjacent-21212cc5dddb)
 
 Example usage:
 
