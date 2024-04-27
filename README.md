@@ -7,7 +7,7 @@ This code and algorithm is discussed in detail in this blog post: [Temperature S
 Example usage:
 
 ```
-  $ python3 src/main.py --beam 4 --input ./wiki-fox.txt --prompt "summarize the following document"
+  $ python3 src/main.py --beam 4 --temperature 4.0 --input ./corpora/wiki-fox.txt --prompt "summarize the following document"
 
   [ voluminous output ]
 
