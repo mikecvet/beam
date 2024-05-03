@@ -18,3 +18,5 @@ Example usage:
    computer keyboards. earliest known use of the phrase started with "A"
   ]
 ```
+
+Also used and slightly modified in [mikecvet/annotated-transformer](https://github.com/mikecvet/annotated-transformer)
